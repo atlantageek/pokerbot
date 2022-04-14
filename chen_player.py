@@ -12,10 +12,14 @@ class ChenPlayer(BasePokerPlayer):
         ch=Chen()
         (top_card,bottom_card,suited)=ch.convert_chen(hole_card)
         chen_score = ch.chen_calc(top_card,bottom_card,suited)
-        if chen_score > 7:
+        street = round_state['street']
+        community_cards = round_state['community_card']
+        print('Round State' + str(round_state) + str(community_cards))
+        if chen_score > 8 and street == 'preflop':
             action = valid_actions[1]  # fetch CALL action info
         else:
             action = valid_actions[0]  # fetch FOLD action info
+        return action['action'], action['amount']
 
     def receive_game_start_message(self, game_info):
         self.nb_player = game_info['player_num']
